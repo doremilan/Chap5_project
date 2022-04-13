@@ -40,7 +40,7 @@ function vaildCheck(data) {
     result.msg = "이메일을 형식이 올바르지 않습니다.";
     result.result = false;
     return result;
-  } else if (data.password.length < 5 && data.confirmPassword < 5) {
+  } else if (data.password.length > 3 && data.confirmPassword > 3) {
     result.msg = "비밀번호는 최소 4자 이상이어야 합니다.";
     result.result = false;
     return result;
@@ -101,11 +101,6 @@ router.post("/login", async (req, res) => {
     console.log(user);
 
     const check = await bcrypt.compare(password, user.password);
-
-    // const hashedPw = await bcrypt.hash(password, 10);
-    // console.log(hashedPw)
-    // const correctPassword = bcrypt.compareSync(password, user.password)
-    // const passwordOk = bcrypt.compare("비밀번호", encryted)
 
     if (!user || !check) {
       res.status(400).send({
