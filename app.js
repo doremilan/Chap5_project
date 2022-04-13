@@ -33,7 +33,6 @@ db.on("error", console.error.bind(console, "connection error:"));
 
 app.use(cors({ origin: "http://localhost:3000" }));
 
-
 app.get("/cors-test", (req, res) => {
   res.send("hi");
 });
@@ -49,12 +48,11 @@ app.get("/cors-test", (req, res) => {
 //   });
 // });
 
-
 const commentsRouter = require("./routes/comment");
 const usersRouter = require("./routes/user");
 const postsRouter = require("./routes/post");
 
-//미들웨어 동작시 동작 시간 
+//미들웨어 동작시 동작 시간
 const requestMiddleware = (req, res, next) => {
   console.log("Request URL:", req.originalUrl, " - ", new Date());
   next();

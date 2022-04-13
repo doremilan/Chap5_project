@@ -94,6 +94,9 @@ router.post("/posts", authMiddleware, async (req, res) => {
   try {
     const { title, content, item, image, createdAt } = req.body;
     const { user } = res.locals;
+    console.log("바디:", req.body);
+    console.log("유저:", res.locals);
+
     //공백값 확인
     if (
       title !== null &&
@@ -110,7 +113,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
         image,
         createdAt,
         email: user.email,
-        profile: user.profile,
+        // profile: user.profile,
         nickname: user.nickname,
       });
       await posts.save();
