@@ -95,6 +95,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   // console.log("req",req)
   const { email, password } = req.body;
+  console.log("확인1:", email, password);
   const hashed = await bcrypt.hash(password, 10);
   const user = await User.findOne({ email, password: hashed }).exec(); // db에 있는 데이터를 비교함
   // 사용자가 없는 경우  --> 화면에서  false로 보내주세요
