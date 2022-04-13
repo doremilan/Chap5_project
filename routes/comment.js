@@ -11,16 +11,14 @@ router.post("/comments/:postId", authMiddleware, async (req, res) => {
   console.log(typeof postId);
 
   const { user } = res.locals;
-  // const { nickname, userImage } = res.locals;
   console.log(user);
 
   const createdComment = await Comments.create({
     comment,
     createdAt,
     postId,
-    // nickname,
-    // userImage,
-    user,
+    nickname: user.nickname,
+    profile: user.profile,
   });
 
   const comments = await Comments.find({ _id: createdComment._id });
@@ -42,7 +40,7 @@ router.get("/comments/:postId", async (req, res) => {
 });
 
 //댓글을 수정합니다.
-router.put("/comments/:commentId", authMiddleware, async (req, res) => {
+router.put("/comments/:commentId", async (req, res) => {
   const commentId = req.params.commentId;
   const { comment } = req.body;
   console.log(comment, commentId);

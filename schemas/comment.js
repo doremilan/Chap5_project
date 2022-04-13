@@ -5,9 +5,11 @@ const commentsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  user: {
+  profile: {
     type: String,
-    required: true,
+  },
+  nickname: {
+    type: String,
   },
   postId: {
     type: String,
