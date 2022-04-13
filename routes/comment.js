@@ -20,6 +20,7 @@ router.post("/comments/:postId", authMiddleware, async (req, res) => {
     postId,
     nickname,
     userImage,
+    userId,
   });
 
   const comments = await Comments.find({ _id: createdComment._id });
