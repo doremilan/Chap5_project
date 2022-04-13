@@ -5,9 +5,8 @@ const commentsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  userId: {
+  user: {
     type: String,
-    ref: "User",
     required: true,
   },
   postId: {
