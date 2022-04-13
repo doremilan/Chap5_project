@@ -151,6 +151,7 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
         { $set: { title, content, item, image, createdAt } }
       );
       res.send({ result: "success" });
+      console.log("포스트2:", postId);
     }
   } catch (error) {
     res.status(400).send({
