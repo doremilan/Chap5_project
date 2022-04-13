@@ -65,7 +65,9 @@ router.get("/search", async (req, res) => {
       throw err;
     }
     //search 한글자라도 연관된게 있으면 다 찾아온다.
-    const postList = await Posts.find({ $or: option });
+    const postList = await Posts.find({ $or: option })
+      .sort("-createdAt")
+      .exec();
     res.json({ postList });
   } catch (error) {
     res.status(400).send({
