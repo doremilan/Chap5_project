@@ -11,7 +11,7 @@ function vaildCheck(data) {
   // 공백 or 빈값 check --> undefined, null, ""
 
   //한글,영문,숫자 3~15자리 가능.
-  var nicknameReg = /^[a-z]+[a-z0-9]{2,15}$/g;
+  var nicknameReg = /^[a-z]+[a-z0-9]{2,15}$/g; //한글 추가 필요
   var emailReg =
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
@@ -68,7 +68,7 @@ router.post("/signup", async (req, res) => {
 
   if (!returnData.result) {
     res.status(400).send({
-      errorMessage: returnData.msg,
+      errorMessage: "가입 실패",
     });
     return;
   }
