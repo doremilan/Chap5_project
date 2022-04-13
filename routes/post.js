@@ -163,8 +163,11 @@ router.delete("/posts/:postId", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
     const { user } = res.locals;
+    console.log("유저:", user);
     const email1 = user["email"];
     const email2 = await Posts.findOne({ _id: postId }).exec();
+    console.log("email1:", email1);
+    console.log("email2:", email2);
     if (email1 !== email2.email) {
       res.send({ result: "권한이 없습니다." });
     } else {
