@@ -4,8 +4,13 @@ const User = require("../schemas/user");
 //jwt token 확인 module
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
+<<<<<<< HEAD
+  console.log(req.headers);
+  const { tokenType, tokenValue } = authorization.split(" ");
+=======
   console.log(authorization);
   const [tokenType, tokenValue] = (authorization || "").split(" ");
+>>>>>>> f44660e553f3630a03d8e7f40e0b95fdc775f896
   console.log(tokenType, tokenValue);
 
   if (!tokenValue || tokenType !== "Bearer") {

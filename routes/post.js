@@ -33,9 +33,9 @@ router.get("/posts/:postId", async (req, res) => {
 //마이페이지
 router.get("/mypage", authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals;
-    if (userId.email) {
-      const mylist = await Posts.find({ email: userId.email })
+    const { user } = res.locals;
+    if (user.email) {
+      const postList = await Posts.find({ email: user.email })
         .sort("-createdAt")
         .exec();
       res.json({ mylist });
