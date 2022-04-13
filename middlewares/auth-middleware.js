@@ -3,8 +3,8 @@ const User = require("../schemas/user");
 
 //jwt token 확인 module
 module.exports = (req, res, next) => {
-  console.log(req.headers);
   const { authorization } = req.headers;
+  console.log(req.headers);
   const { tokenType, tokenValue } = authorization.split(" ");
   console.log(tokenType, tokenValue);
 
