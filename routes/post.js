@@ -135,7 +135,7 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
     const { postId } = req.params;
     //유저 인증
     const { user } = res.locals;
-    console.log("포스트:", postId);
+    // console.log("포스트:", postId);
     console.log("유저:", user);
     const { title, content, item, image, createdAt } = req.body;
     const email1 = user["email"];
