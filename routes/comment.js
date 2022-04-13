@@ -11,15 +11,15 @@ router.post("/comments/:postId", authMiddleware, async (req, res) => {
   console.log(typeof postId);
 
   const { user } = res.locals;
-  const { nickname, userImage } = res.locals;
+  // const { nickname, userImage } = res.locals;
   console.log(user);
 
   const createdComment = await Comments.create({
     comment,
     createdAt,
     postId,
-    nickname,
-    userImage,
+    // nickname,
+    // userImage,
     user,
   });
 
