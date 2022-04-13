@@ -147,7 +147,7 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
       res.send({ result: "권한이 없음" });
     } else {
       await Posts.updateOne(
-        { postId },
+        { _id: postId },
         { $set: { title, content, item, image, createdAt } }
       );
       res.send({ result: "success" });
@@ -168,7 +168,7 @@ router.delete("/posts/:postId", authMiddleware, async (req, res) => {
     if (email1 !== email2.email) {
       res.send({ result: "권한이 없습니다." });
     } else {
-      await Posts.deleteOne({ postId });
+      await Posts.deleteOne({ _id: postId });
       res.status(200).send({ result: "삭제가 되었습니다." });
     }
   } catch (error) {
