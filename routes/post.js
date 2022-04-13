@@ -139,7 +139,7 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
     console.log("유저:", user);
     const { title, content, item, image, createdAt } = req.body;
     const email1 = user["email"];
-    const email2 = await Posts.findOne({ postId: postId }).exec();
+    const email2 = await Posts.findOne({ postId: _id }).exec();
     console.log("email1:", email1);
     console.log("email2:", email2);
     //동일 유저 확인 조건
