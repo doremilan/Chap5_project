@@ -17,12 +17,12 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// UserSchema.virtual("_Id").get(function () {
-//   return this._id.toHexString(); // 가상의 아이디를 만들어서
-// });
+UserSchema.virtual("_Id").get(function () {
+  return this._id.toHexString(); // 가상의 아이디를 만들어서
+});
 
-// UserSchema.set("toJSON", {
-//   virtuals: true,
-// });
+UserSchema.set("toJSON", {
+  virtuals: true,
+});
 
 module.exports = mongoose.model("User", UserSchema);
