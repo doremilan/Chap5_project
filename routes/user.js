@@ -99,7 +99,7 @@ router.post("/login", async (req, res) => {
   const user = await User.findOne({ email }).exec();
   console.log(user);
 
-  const check = await bcrypt.compare(password, user[0].password);
+  const check = await bcrypt.compare(password, user.password);
 
   // const hashedPw = await bcrypt.hash(password, 10);
   // console.log(hashedPw)
