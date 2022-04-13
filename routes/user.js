@@ -97,8 +97,9 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email }).exec();
+  console.log(user);
   const hashedPw = await bcrypt.hash(password, 10);
-
+  console.log(hashedPw);
   if (!user || hashedPw !== user.password) {
     res.status(400).send({
       errorMessage: "이메일 또는 패스워드가 틀렸습니다.",
