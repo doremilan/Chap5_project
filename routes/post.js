@@ -146,12 +146,12 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
     if (email1 !== email2.email) {
       res.send({ result: "권한이 없음" });
     } else {
+      console.log("포스트2:", await Posts.findOne({ postId }));
       await Posts.updateOne(
         { postId },
         { $set: { title, content, item, image, createdAt } }
       );
       res.send({ result: "success" });
-      console.log("포스트2:", postId);
     }
   } catch (error) {
     res.status(400).send({
