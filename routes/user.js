@@ -117,12 +117,12 @@ router.get("/islogin", authMiddleware, async (req, res) => {
   });
 });
 
-router.post("/loginInfo", async (req, res) => {
-  const { token } = req.body;
-  res.json({
-    userInfo: jwt.decode(token),
-  });
-});
+// router.post("/loginInfo", async (req, res) => {
+//   const { token } = req.body;
+//   res.json({
+//     userInfo: jwt.decode(token),
+//   });
+// });
 
 // router.get('/logout')e
 
