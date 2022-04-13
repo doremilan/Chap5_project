@@ -140,6 +140,8 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
     const { title, content, item, image, createdAt } = req.body;
     const email1 = user["email"];
     const email2 = await Posts.findOne({ postId }).exec();
+    console.log("email1:", email1);
+    console.log("email2:", email2);
     //동일 유저 확인 조건
     if (email1 !== email2) {
       res.send({ result: "권한이 없음" });
