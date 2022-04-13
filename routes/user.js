@@ -94,30 +94,36 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   // console.log("req",req)
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).exec();
-  console.log(user);
+    const user = await User.findOne({ email }).exec();
+    console.log(user);
 
-  const check = await bcrypt.compare(password, user.password);
+    const check = await bcrypt.compare(password, user.password);
 
-  // const hashedPw = await bcrypt.hash(password, 10);
-  // console.log(hashedPw)
-  // const correctPassword = bcrypt.compareSync(password, user.password)
-  // const passwordOk = bcrypt.compare("비밀번호", encryted)
+    // const hashedPw = await bcrypt.hash(password, 10);
+    // console.log(hashedPw)
+    // const correctPassword = bcrypt.compareSync(password, user.password)
+    // const passwordOk = bcrypt.compare("비밀번호", encryted)
 
-  if (!user || !check) {
-    res.status(400).send({
-      errorMessage: "이메일 또는 패스워드가 틀렸습니다.",
+    if (!user || !check) {
+      res.status(400).send({
+        errorMessage: "이메일 또는 패스워드가 틀렸습니다.",
+      });
+      return;
+    }
+    // 사용자가 있을 경우 토큰값이랑 true보냄
+    const token = jwt.sign({ userInfo: user }, "my-secret-key"); // 글을 작성할떄 회원아이디만 가지고있느게 아니라
+    res.send({
+      token,
+      result: true,
     });
-    return;
+  } catch (error) {
+    res.status(400).send({
+      errorMessage: "로그인 정보를 확인해주세요.",
+    });
   }
-  // 사용자가 있을 경우 토큰값이랑 true보냄
-  const token = jwt.sign({ userInfo: user }, "my-secret-key"); // 글을 작성할떄 회원아이디만 가지고있느게 아니라
-  res.send({
-    token,
-    result: true,
-  });
 });
 
 router.get("/islogin", authMiddleware, async (req, res) => {
