@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const app = express();
 const port = 5000;
-require("dotenv").config();
+// require("dotenv").config();
 
 // const http = require("http").createServer(app);
 // const { Server } = require("socket.io");
@@ -13,7 +13,7 @@ require("dotenv").config();
 // MongoDB 연결
 var db = mongoose
   .connect(
-    "mongodb+srv://MONGODB_ID:MONGODB_PW@cluster0.emaap.mongodb.net/team7-db?ret" +
+    "mongodb+srv://eorb1230:eorb1230@cluster0.emaap.mongodb.net/team7-db?ret" +
       "ryWrites=true&w=majority",
     {
       useNewUrlParser: true,
