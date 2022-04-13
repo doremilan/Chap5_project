@@ -19,8 +19,8 @@ router.get("/:postId/like", async (req, res) => {
 router.post("/:postId/like", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
-    const { userId } = req.locals;
-    const like = await Likes.find({ postId, email: userId.email });
+    const { user } = req.locals;
+    const like = await Likes.find({ postId, email: user.email });
     if (like) {
       res.status(404).send({ result: "게시글 작성에 실패하였습니다." });
     }
@@ -36,8 +36,8 @@ router.post("/:postId/like", authMiddleware, async (req, res) => {
 router.delete("/:postId/likes", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
-    const { userId } = res.locals;
-    await Likes.deleteOne({ postId, emil: userId.email });
+    const { user } = res.locals;
+    await Likes.deleteOne({ postId, emil: user.email });
     res.status(200).send({ result: "취소" });
   } catch (error) {
     res.status(400).send({

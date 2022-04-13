@@ -113,7 +113,6 @@ router.post("/posts", authMiddleware, async (req, res) => {
         image,
         createdAt,
         email: user.email,
-        profile: user.profile,
         nickname: user.nickname,
       });
       await posts.save();

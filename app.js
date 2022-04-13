@@ -4,32 +4,37 @@ const cors = require("cors");
 
 const app = express();
 const port = 5000;
+require("dotenv").config();
 
-const http = require("http").createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(http);
+// const http = require("http").createServer(app);
+// const { Server } = require("socket.io");
+// const io = new Server(http);
 
-// // MongoDB 연결
-// const mongoose = require("mongoose");
-// var db = mongoose
-// .connect('mongodb+srv://eorb1230:eorb1230@cluster0.emaap.mongodb.net/nodenode?ret' +
-// 'ryWrites=true&w=majority',{
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//         // useCreateIndex: true, //MondDB 6.0 이상에서는 지원 X
-//         ignoreUndefined: true
-//     })
-//     .then(() => console.log('MongoDB 연결완료'))
-//     .catch(err =>{console.log(err);
+// MongoDB 연결
+const mongoose = require("mongoose");
+var db = mongoose
+  .connect(
+    "mongodb+srv://MONGODB_ID:MONGODB_PW@cluster0.emaap.mongodb.net/team7-db?ret" +
+      "ryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      // useCreateIndex: true, //MondDB 6.0 이상에서는 지원 X
+      ignoreUndefined: true,
+    }
+  )
+  .then(() => console.log("MongoDB 연결완료"))
+  .catch((err) => {
+    console.log(err);
+  });
+
+// mongoose.connect("mongodb://localhost:27017/team7-db", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
 // });
 
-mongoose.connect("mongodb://localhost:27017/team7-db", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "connection error:"));
 
 app.use(cors({ origin: "http://localhost:3000" }));
 

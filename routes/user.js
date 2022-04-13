@@ -58,9 +58,9 @@ function vaildCheck(data) {
 
 // 회원가입 API
 router.post("/signup", async (req, res) => {
-  const { email, nickname, password, profile } = req.body; // 한번 req찍어보기
+  const { email, nickname, password } = req.body; // 한번 req찍어보기
   // console.log("-------->",req);
-  // console.log({ email, nickname, password, profile })
+  // console.log({ email, nickname, password })
   //req.body = {email:undefined , nickname:"" , password:""};
   //req.body ={};
 
@@ -85,7 +85,7 @@ router.post("/signup", async (req, res) => {
 
   const hashed = await bcrypt.hash(password, 10);
 
-  const newuser = new User({ email, nickname, password: hashed, profile });
+  const newuser = new User({ email, nickname, password: hashed });
   await newuser.save();
   res.status(201).send({
     Message: "회원가입 완료!", // res.send({ result:true,false})
@@ -98,9 +98,15 @@ router.post("/login", async (req, res) => {
 
   const user = await User.findOne({ email }).exec();
   console.log(user);
-  const hashedPw = await bcrypt.hash(password, 10);
-  console.log(hashedPw);
-  if (!user || hashedPw !== user.password) {
+
+  const check = await bcrypt.compare(password, user[0].password);
+
+  // const hashedPw = await bcrypt.hash(password, 10);
+  // console.log(hashedPw)
+  // const correctPassword = bcrypt.compareSync(password, user.password)
+  // const passwordOk = bcrypt.compare("비밀번호", encryted)
+
+  if (!user || !check) {
     res.status(400).send({
       errorMessage: "이메일 또는 패스워드가 틀렸습니다.",
     });
