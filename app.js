@@ -11,7 +11,6 @@ require("dotenv").config();
 // const io = new Server(http);
 
 // MongoDB 연결
-const mongoose = require("mongoose");
 var db = mongoose
   .connect(
     "mongodb+srv://MONGODB_ID:MONGODB_PW@cluster0.emaap.mongodb.net/team7-db?ret" +
