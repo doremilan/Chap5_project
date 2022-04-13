@@ -95,14 +95,13 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   // console.log("req",req)
   const { email, password } = req.body;
-  console.log("확인1:", email, password);
-  const hashed = await bcrypt.hash(password, 10);
-  const user = await User.find({ email, password: hashed }).exec(); // db에 있는 데이터를 비교함
-  // 사용자가 없는 경우  --> 화면에서  false로 보내주세요
-  console.log("확인:", user);
-  if (!user) {
-    res.send({
-      result: false,
+
+  const user = await User.findOne({ email }).exec();
+  const hashedPw = await bcrypt.hash(password, 10);
+
+  if (!user || hashedPw !== user.password) {
+    res.status(400).send({
+      errorMessage: "이메일 또는 패스워드가 틀렸습니다.",
     });
     return;
   }
