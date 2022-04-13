@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
   console.log(req.headers);
   const { authorization } = req.headers;
   const { tokenType, tokenValue } = authorization.split(" ");
+  console.log(tokenType, tokenValue);
 
   if (tokenType !== "Bearer") {
     res.status(401).send({
@@ -15,13 +16,16 @@ module.exports = (req, res, next) => {
   }
 
   try {
+    console.log(tokenValue);
     const { email } = jwt.verify(tokenValue, "my-secret-key");
     User.findById(email)
       .exec()
       .then((user) => {
         res.locals.user = user;
+        console.log("1", res.locals.user);
         next();
       });
+    console.log("2", res.locals.user);
   } catch (error) {
     res.status(401).send({
       errorMessage: "로그인 후 사용하세요.",
