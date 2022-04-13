@@ -1,7 +1,7 @@
 const express = require("express");
 const Comments = require("../schemas/comment");
 const router = express.Router();
-const authMiddleware = require("./middlewares/auth-middleware.js");
+const authMiddleware = require("../middlewares/auth-middleware.js");
 
 //댓글을 저장합니다.
 router.post("/comments/:postId", authMiddleware, async (req, res) => {
