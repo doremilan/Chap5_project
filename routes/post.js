@@ -1,5 +1,6 @@
 const express = require("express");
 const Posts = require("../schemas/post.js");
+const Comments = require("../schemas/comment");
 const router = express.Router();
 // const upload = require('./upload');
 const authMiddleware = require("../middlewares/auth-middleware.js");
@@ -8,7 +9,10 @@ const authMiddleware = require("../middlewares/auth-middleware.js");
 router.get("/postList", async (req, res, next) => {
   try {
     const postList = await Posts.find({}).sort("-createdAt").exec();
-    res.json({ postList });
+    const comment = await Comments.find({ postId: postList._id });
+    const commentCount = comment.length;
+    console.log(comment, commentCount);
+    res.json({ postList, commentCount });
   } catch (error) {
     res.status(400).send({
       errorMessage: "게시글 조회에 실패하였습니다.",
