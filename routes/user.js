@@ -112,7 +112,7 @@ router.post("/login", async (req, res) => {
 router.get("/islogin", authMiddleware, async (req, res) => {
   const { user } = res.locals;
   // console.log(user)
-  res.status(400).send({
+  res.status(200).send({
     user, // 로그인한 사람의 정보를 필요하면 islogin을 호출하세요
   });
 });
