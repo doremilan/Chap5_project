@@ -68,7 +68,7 @@ router.post("/signup", async (req, res) => {
 
   if (!returnData.result) {
     res.status(400).send({
-      errorMessage: returnData.msg,
+      errorMessage: "가입 실패",
     });
     return;
   }
