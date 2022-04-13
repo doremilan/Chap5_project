@@ -5,10 +5,10 @@ const User = require("../schemas/user");
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
   console.log(authorization);
-  const { tokenType, tokenValue } = authorization.split(" ");
+  const [tokenType, tokenValue] = (authorization || "").split(" ");
   console.log(tokenType, tokenValue);
 
-  if (tokenType !== "Bearer") {
+  if (!tokenValue || tokenType !== "Bearer") {
     res.status(401).send({
       errorMessage: "로그인 후 이용하세요.",
     });
