@@ -21,10 +21,10 @@ const postsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // profile: {
-  //   type: String,
-  //   // required: true,
-  // },
+  profile: {
+    type: String,
+    // required: true,
+  },
   nickname: {
     type: String,
     required: true,
