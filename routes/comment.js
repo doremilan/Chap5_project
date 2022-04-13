@@ -1,7 +1,7 @@
 const express = require("express");
 const Comments = require("../schemas/comment");
 const router = express.Router();
-const authMiddleware = require("./middlewares/auth-middleware.js");
+const authMiddleware = require("../middlewares/auth-middleware.js");
 
 //댓글을 저장합니다.
 router.post("/comments/:postId", authMiddleware, async (req, res) => {
@@ -10,8 +10,8 @@ router.post("/comments/:postId", authMiddleware, async (req, res) => {
   console.log(postId);
   console.log(typeof postId);
 
-  const userId = res.locals._id;
-  const { nickname, userImage } = res.locals.user;
+  const { userId } = res.locals;
+  const { nickname, userImage } = res.locals;
   console.log(userId);
 
   const createdComment = await Comments.create({
@@ -20,6 +20,7 @@ router.post("/comments/:postId", authMiddleware, async (req, res) => {
     postId,
     nickname,
     userImage,
+    userId,
   });
 
   const comments = await Comments.find({ _id: createdComment._id });

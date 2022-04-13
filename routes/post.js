@@ -2,7 +2,7 @@ const express = require("express");
 const Posts = require("../schemas/post.js");
 const router = express.Router();
 // const upload = require('./upload');
-const authMiddleware = require("./middlewares/auth-middleware.js");
+const authMiddleware = require("../middlewares/auth-middleware.js");
 
 //전체 조회
 router.get("/postList", async (req, res, next) => {
@@ -30,53 +30,51 @@ router.get("/posts/:postId", async (req, res) => {
   }
 });
 
-
-
 //마이페이지
-router.get('/mypage' ,authMiddleware, async(req,res)=>{
-  try{
-      const{userId} = res.locals;
-      if(userId.email){
-       const mylist =   await Posts.find({email:userId.email}).sort("-createdAt").exec();
-       res.json({mylist})
-      }
-      res.status(400).send({ result: '로그인된 회원이 아닙니다'})
-  }catch(error){
-      res.status(400).send({
-          errorMessage: "조회에 실패하였습니다."
-      });
+router.get("/mypage", authMiddleware, async (req, res) => {
+  try {
+    const { userId } = res.locals;
+    if (userId.email) {
+      const mylist = await Posts.find({ email: userId.email })
+        .sort("-createdAt")
+        .exec();
+      res.json({ mylist });
+    }
+    res.status(400).send({ result: "로그인된 회원이 아닙니다" });
+  } catch (error) {
+    res.status(400).send({
+      errorMessage: "조회에 실패하였습니다.",
+    });
   }
-})
-
+});
 
 //검색조회
-router.get('/search', async(req,res)=>{
-  try{
-  /*  const keyword = req.query.item */
-   /*  const postList = await Posts.find({$item:{$search: keyword}})  */
-   //array생성
-   let option = []
-   //조건문
-   if(option){
-       //정규식(item키값은 밸류 req.qurey.item설정)
-       option = [{item:new RegExp(req.query.item)}]
-   }else{
-       const err = new Error('검색 옵션이 없습니다.')
-           err.status = 400
-           throw err
-   }
-   //search 한글자라도 연관된게 있으면 다 찾아온다.
-   const postList = await Posts.find({$or:option}).sort("-createdAt").exec();
-   res.json({postList})
-}catch(error){
-   res.status(400).send({
-       errorMessage: "검색어 조회에 실패하였습니다."
-   })
-}
-   
-})
-
-
+router.get("/search", async (req, res) => {
+  try {
+    /*  const keyword = req.query.item */
+    /*  const postList = await Posts.find({$item:{$search: keyword}})  */
+    //array생성
+    let option = [];
+    //조건문
+    if (option) {
+      //정규식(item키값은 밸류 req.qurey.item설정)
+      option = [{ item: new RegExp(req.query.item) }];
+    } else {
+      const err = new Error("검색 옵션이 없습니다.");
+      err.status = 400;
+      throw err;
+    }
+    //search 한글자라도 연관된게 있으면 다 찾아온다.
+    const postList = await Posts.find({ $or: option })
+      .sort("-createdAt")
+      .exec();
+    res.json({ postList });
+  } catch (error) {
+    res.status(400).send({
+      errorMessage: "검색어 조회에 실패하였습니다.",
+    });
+  }
+});
 
 // router.post('/image', upload.single('image'), async (req, res) => {
 //     const file = await req.file;
