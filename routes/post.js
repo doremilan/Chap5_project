@@ -146,7 +146,6 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
     if (email1 !== email2.email) {
       res.send({ result: "권한이 없음" });
     } else {
-      console.log("포스트2:", await Posts.findOne({ postId }));
       await Posts.updateOne(
         { postId },
         { $set: { title, content, item, image, createdAt } }
@@ -165,8 +164,8 @@ router.delete("/posts/:postId", authMiddleware, async (req, res) => {
     const { postId } = req.params;
     const { user } = res.locals;
     const email1 = user["email"];
-    const email2 = await Posts.findOne({ postId }).exec();
-    if (email1 !== email2) {
+    const email2 = await Posts.findOne({ _id: postId }).exec();
+    if (email1 !== email2.email) {
       res.send({ result: "권한이 없습니다." });
     } else {
       await Posts.deleteOne({ postId });
