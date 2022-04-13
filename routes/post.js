@@ -143,7 +143,7 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
     console.log("email1:", email1);
     console.log("email2:", email2);
     //동일 유저 확인 조건
-    if (email1 !== email2) {
+    if (email1 !== email2.email) {
       res.send({ result: "권한이 없음" });
     } else {
       await Posts.updateOne(
