@@ -3,6 +3,7 @@ const User = require("../schemas/user");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/auth-middleware");
+const bcrypt = require("bcrypt");
 
 // vailidation check
 function vaildCheck(data) {
@@ -82,7 +83,9 @@ router.post("/signup", async (req, res) => {
     return;
   }
 
-  const newuser = new User({ email, nickname, password, profile });
+  const hashed = await bcrypt.hash(password, 10);
+
+  const newuser = new User({ email, nickname, password: hashed, profile });
   await newuser.save();
   res.status(201).send({
     Message: "회원가입 완료!", // res.send({ result:true,false})
@@ -92,8 +95,8 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   // console.log("req",req)
   const { email, password } = req.body;
-  console.log(email, password);
-  const user = await User.findOne({ email, password }).exec(); // db에 있는 데이터를 비교함
+  const hashed = await bcrypt.hash(password, 10);
+  const user = await User.findOne({ email, password: hashed }).exec(); // db에 있는 데이터를 비교함
   // 사용자가 없는 경우  --> 화면에서  false로 보내주세요
   if (!user) {
     res.send({
