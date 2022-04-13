@@ -93,7 +93,7 @@ router.get("/search", async (req, res) => {
 router.post("/posts", authMiddleware, async (req, res) => {
   try {
     const { title, content, item, image, createdAt } = req.body;
-    const { userId } = res.locals;
+    const { user } = res.locals;
     //공백값 확인
     if (
       title !== null &&
@@ -109,9 +109,9 @@ router.post("/posts", authMiddleware, async (req, res) => {
         item,
         image,
         createdAt,
-        email: userId.email,
-        profile: userId.profile,
-        nickname: userId.nickname,
+        email: user.email,
+        profile: user.profile,
+        nickname: user.nickname,
       });
       await posts.save();
       res.status(200).send({
@@ -131,9 +131,9 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
     //파라미터 값
     const { postId } = req.params;
     //유저 인증
-    const { userId } = res.locals;
+    const { user } = res.locals;
     const { title, content, item, image, createdAt } = req.body;
-    const email1 = userId["email"];
+    const email1 = user["email"];
     const email2 = await Posts.findOne({ postId }).exec();
     //동일 유저 확인 조건
     if (email1 !== email2) {
@@ -155,8 +155,8 @@ router.put("/posts/:postId", authMiddleware, async (req, res) => {
 router.delete("/posts/:postId", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
-    const { userId } = res.locals;
-    const email1 = userId["email"];
+    const { user } = res.locals;
+    const email1 = user["email"];
     const email2 = await Posts.findOne({ postId }).exec();
     if (email1 !== email2) {
       res.send({ result: "권한이 없습니다." });
