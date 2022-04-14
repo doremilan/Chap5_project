@@ -35,6 +35,7 @@ router.get("/posts/:postId", async (req, res) => {
 router.get("/mypage", authMiddleware, async (req, res) => {
   try {
     const { user } = res.locals;
+    console.log(user.email)
     if (user.email) {
       const mylist = await Posts.findOne({ email: user.email })
         .sort("-createdAt")
