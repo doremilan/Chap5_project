@@ -49,13 +49,16 @@ router.get("/comments/:postId", async (req, res) => {
 router.put("/comments/:commentId", async (req, res) => {
   try {
     const commentId = req.params.commentId;
-    const { comment } = req.body;
+    const { comment, createdAt } = req.body;
     console.log(comment, commentId);
 
     const existComment = await Comments.find({ commentId });
 
     if (existComment.length) {
-      await Comments.updateOne({ _id: commentId }, { $set: { comment } });
+      await Comments.updateOne(
+        { _id: commentId },
+        { $set: { comment, createdAt } }
+      );
     }
 
     res.status(200).json({
