@@ -45,7 +45,7 @@ function vaildCheck(data) {
     result.msg = "비밀번호를 입력해주세요.";
     result.result = false;
     return result;
-  } else if (data.password.length > 3) {
+  } else if (data.password.length < 4) {
     result.msg = "비밀번호는 최소 4자 이상이어야 합니다.";
     result.result = false;
     return result;
@@ -70,7 +70,7 @@ router.post("/signup", async (req, res) => {
 
   if (!returnData.result) {
     res.status(400).send({
-      errorMessage: "가입 실패",
+      errorMessage: returnData.msg,
     });
     return;
   }

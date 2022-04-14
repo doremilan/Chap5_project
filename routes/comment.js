@@ -5,27 +5,33 @@ const authMiddleware = require("../middlewares/auth-middleware.js");
 
 //댓글을 저장합니다.
 router.post("/comments/:postId", authMiddleware, async (req, res) => {
-  const { comment, createdAt } = req.body;
-  const postId = req.params.postId;
-  console.log(postId);
-  console.log(typeof postId);
+  try {
+    const { comment, createdAt } = req.body;
+    const postId = req.params.postId;
+    console.log(postId);
+    console.log(typeof postId);
 
-  const { user } = res.locals;
-  console.log(user);
+    const { user } = res.locals;
+    console.log(user);
 
-  const createdComment = await Comments.create({
-    comment,
-    createdAt,
-    postId,
-    nickname: user.nickname,
-    email: user.email,
-  });
+    const createdComment = await Comments.create({
+      comment,
+      createdAt,
+      postId,
+      nickname: user.nickname,
+      email: user.email,
+    });
 
-  const comments = await Comments.find({ _id: createdComment._id });
+    const comments = await Comments.find({ _id: createdComment._id });
 
-  res.status(201).json({
-    comments,
-  });
+    res.status(201).json({
+      comments,
+    });
+  } catch (error) {
+    res.status(400).send({
+      errorMessage: "댓글 작성 실패ㅠㅠ",
+    });
+  }
 });
 
 //댓글 목록 조회
@@ -41,19 +47,28 @@ router.get("/comments/:postId", async (req, res) => {
 
 //댓글을 수정합니다.
 router.put("/comments/:commentId", async (req, res) => {
-  const commentId = req.params.commentId;
-  const { comment } = req.body;
-  console.log(comment, commentId);
+  try {
+    const commentId = req.params.commentId;
+    const { comment, createdAt } = req.body;
+    console.log(comment, commentId, createdAt);
 
-  const existComment = await Comments.find({ commentId });
+    const existComment = await Comments.find({ commentId });
 
-  if (existComment.length) {
-    await Comments.updateOne({ _id: commentId }, { $set: { comment } });
+    if (existComment.length) {
+      await Comments.updateOne(
+        { _id: commentId },
+        { $set: { comment, createdAt } }
+      );
+    }
+
+    res.status(200).json({
+      msg: "수정 완료!",
+    });
+  } catch (error) {
+    res.status(400).send({
+      errorMessage: "댓글 내용을 입력해주세요!",
+    });
   }
-
-  res.status(200).json({
-    msg: "수정 완료!",
-  });
 });
 
 //댓글을 삭제합니다.
