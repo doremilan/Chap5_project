@@ -1,6 +1,5 @@
 const express = require("express");
 const Posts = require("../schemas/post.js");
-const Comments = require("../schemas/comment");
 const router = express.Router();
 // const upload = require('./upload');
 const authMiddleware = require("../middlewares/auth-middleware.js");
@@ -8,8 +7,19 @@ const authMiddleware = require("../middlewares/auth-middleware.js");
 //전체 조회
 router.get("/postList", async (req, res, next) => {
   try {
-    const postList = await Posts.find({}).sort("-createdAt").exec();
-    res.json({ postList });
+    const postList = await Posts.aggregate([
+      {$match:{}},
+      {$addFields:{postId:{$toString:"$_id"}}},
+      { $lookup: {
+          from: 'comments',
+          localField:'postId' ,
+          foreignField:'postId',
+          as: 'comment'
+      }
+     },
+    ]).sort("-createdAt").exec();
+    console.log(postList[0]._id)
+    res.json({ postList,});
   } catch (error) {
     res.status(400).send({
       errorMessage: "게시글 조회에 실패하였습니다.",
@@ -58,10 +68,10 @@ router.get("/search", async (req, res) => {
     //array생성
     let option = [];
     //조건문
-    if (option) {
+    if (req.query.item) {
       //정규식(item키값은 밸류 req.qurey.item설정)
       option = [{ item: new RegExp(req.query.item) }];
-    } else {
+    } else if(req.query.item === ''){
       const err = new Error("검색 옵션이 없습니다.");
       err.status = 400;
       throw err;
