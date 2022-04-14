@@ -7,15 +7,12 @@ const bcrypt = require("bcrypt");
 
 // vailidation check
 function vaildCheck(data) {
-  //data = req.body; --> 회원가입을 위해 민경님이 넘겨준값
   var result = { result: true, msg: "" };
   // 공백 or 빈값 check --> undefined, null, ""
-
-  //한글,영문,숫자 3~15자리 가능.
-  var nicknameReg = /^[a-z]+[a-z0-9]{2,15}$/g; //한글 추가 필요
+  //한글,영문,숫자 2-8자리 가능.
+  var nicknameReg = /^[a-z]+[a-z0-9가-힣]{2,8}$/g;
   var emailReg =
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-
   if (
     data.nickname == undefined ||
     data.nickname == null ||
@@ -40,16 +37,20 @@ function vaildCheck(data) {
     result.msg = "이메일을 형식이 올바르지 않습니다.";
     result.result = false;
     return result;
-  } else if (data.password.length > 3 && data.confirmPassword > 3) {
+  } else if (
+    data.password == undefined ||
+    data.password == null ||
+    data.password == ""
+  ) {
+    result.msg = "비밀번호를 입력해주세요.";
+    result.result = false;
+    return result;
+  } else if (data.password.length > 3) {
     result.msg = "비밀번호는 최소 4자 이상이어야 합니다.";
     result.result = false;
     return result;
   } else if (!data.password.search(data.nickname)) {
     result.msg = "비밀번호는 닉네임과 같은 값이 포함될 수 없습니다.";
-    result.result = false;
-    return result;
-  } else if (data.password !== data.confirmPassword) {
-    result.msg = "비밀번호를 확인하세요";
     result.result = false;
     return result;
   }
