@@ -40,7 +40,7 @@ router.get("/mypage", authMiddleware, async (req, res) => {
       const mylist = await Posts.findOne({ email: user.email })
         .sort("-createdAt")
         .exec();
-      res.json({ mylist });
+     return res.json({ mylist });   
     }
     throw new Error('로그인이 되어 있지 않습니다.')
   } catch (error) {
