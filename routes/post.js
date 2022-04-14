@@ -36,12 +36,12 @@ router.get("/mypage", authMiddleware, async (req, res) => {
   try {
     const { user } = res.locals;
     if (user.email) {
-      const mylist = await Posts.find({ email: user.email })
+      const mylist = await Posts.findOne({ email: user.email })
         .sort("-createdAt")
         .exec();
       res.json({ mylist });
     }
-    res.status(400).send({ result: "로그인된 회원이 아닙니다" });
+    throw new Error('로그인이 되어 있지 않습니다.')
   } catch (error) {
     res.status(400).send({
       errorMessage: "조회에 실패하였습니다.",
