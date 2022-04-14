@@ -22,7 +22,9 @@ var db = mongoose
     console.log(err);
   });
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({ origin: "http://naeng-bu.s3-website.ap-northeast-2.amazonaws.com" })
+);
 
 app.get("/cors-test", (req, res) => {
   res.send("hi");
