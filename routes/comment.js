@@ -50,7 +50,7 @@ router.put("/comments/:commentId", async (req, res) => {
   try {
     const commentId = req.params.commentId;
     const { comment, createdAt } = req.body;
-    console.log(comment, commentId);
+    console.log(comment, commentId, createdAt);
 
     const existComment = await Comments.find({ commentId });
 
