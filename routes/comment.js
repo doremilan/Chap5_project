@@ -18,6 +18,7 @@ router.post("/comments/:postId", authMiddleware, async (req, res) => {
     createdAt,
     postId,
     nickname: user.nickname,
+    email: user.email,
   });
 
   const comments = await Comments.find({ _id: createdComment._id });

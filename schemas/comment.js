@@ -8,6 +8,9 @@ const commentsSchema = mongoose.Schema({
   nickname: {
     type: String,
   },
+  email: {
+    type: String,
+  },
   postId: {
     type: String,
   },
