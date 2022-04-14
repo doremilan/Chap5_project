@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
   try {
     console.log(tokenValue);
     const user = jwt.verify(tokenValue, "my-secret-key");
-    const email = user.email;
+    const email = user.userInfo.email;
     console.log("email", email);
     User.findOne(email)
       .exec()
