@@ -27,11 +27,11 @@
 
 <br><br><br>
 # 🌎Website
-
+http://naeng-bu.s3-website.ap-northeast-2.amazonaws.com/
 
 <br><br><br>
 # 🎬데모 영상 링크
-
+https://youtu.be/DvVvXFBrmig
 
 <br><br><br>
 # 📋와이어 프레임
